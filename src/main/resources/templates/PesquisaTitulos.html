@@ -51,6 +51,11 @@
 <!-- 									th:href="@{/titulo/delete/{codigo}(codigo=${titulo.codigo})}" -->
 									<span class="glyphicon glyphicon-trash"></span>
 								</a>
+								<a class="btn btn-success btn-xs js-atualizar-status" th:if="${titulo.pendente}"
+									
+									title="Receber" rel="tooltip" data-placement="top">
+									<span class="glyphicon glyphicon-check"></span>
+								</a>
 							</td>
 						</tr>
 						<tr th:if="${#lists.isEmpty(titulos)}">

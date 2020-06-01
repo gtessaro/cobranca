@@ -18,6 +18,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.example.cobranca.model.StatusTitulo;
 import com.example.cobranca.model.Titulo;
 import com.example.cobranca.repository.Titulos;
+import com.example.cobranca.service.CadastroTituloService;
 
 @Controller
 @RequestMapping({"/titulo","/titulo/"})
@@ -25,6 +26,9 @@ public class TituloController {
 
 	@Autowired
 	private Titulos titulos;
+	
+	@Autowired
+	private CadastroTituloService service;
 	
 	private static String CADASTRO_VIEW = "CadastroTitulo";
 	
@@ -41,12 +45,12 @@ public class TituloController {
 			return CADASTRO_VIEW;
 		}
 		try {
-			titulos.save(titulo);
+			service.salvar(titulo);
 			
 			attributes.addFlashAttribute("mensagem", "Título salvo com sucesso!");
 			return "redirect:/titulo/novo";
 		}catch(DataIntegrityViolationException ex) {
-			errors.rejectValue("dataVencimento", null, "Formato de data inválido");
+			errors.rejectValue("dataVencimento", null, ex.getMessage());
 			return CADASTRO_VIEW;
 		}
 	}
@@ -88,13 +92,10 @@ public class TituloController {
 //	}
 	
 	@RequestMapping(value="{codigo}",method = RequestMethod.DELETE)
-	public String excluir(@PathVariable Long codigo) {
-		ModelAndView mv = new ModelAndView("PesquisaTitulos");
+	public String excluir(@PathVariable Long codigo, RedirectAttributes attributes) {
 		
-		titulos.delete(codigo);
-
-//		List<Titulo> titulos = this.titulos.findAll();
-//		mv.addObject("titulos", titulos);
+		service.delete(codigo);
+		attributes.addFlashAttribute("mensagem", "Título excluído com sucesso!");
 		
 		return "redirect:/titulo";
 	}
