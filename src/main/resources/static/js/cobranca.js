@@ -22,8 +22,27 @@ $(function(){
 	$('[rel="tooltip"]').tooltip();
 	$('.js-currency').maskMoney({decimal: ',',thousands: '.', allowZero: false});
 	
-	$('.js-atualizar-status'.on('click', function(event){
-		alert('clicou');
+	$('.js-atualizar-status').on('click', function(event){
+		event.preventDefault();
+		
+		var button = $(event.currentTarget);
+		var url	   = button.attr('href');
+		
+		var response = $.ajax({
+			url: url,
+			type: 'PUT'
+		});
+		
+		response.done(function(e){
+			var codigo = button.data('codigo');
+			$('[data-role='+codigo+']').html('<span class="label label-success">'+e+'</span>');			
+			
+			button.hide();
+		});
+		
+		response.fail(function(e){
+			alert('Erro ao receber cobrança!');
+		});
+		
 	});
-	
 });
