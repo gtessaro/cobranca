@@ -16,6 +16,23 @@
 				</div>
 			</div>
 			<div class="panel-body">
+
+				<form method="GET" class="form-horizontal" action="/titulo" th:object="${filtro}">
+					<div class="form-group">
+						<div class="col-sm-4">
+							<div class="input-group">
+								<input type="text" class="form-control" placeholder="Digite a descrição do título"
+									autofocus="autofocus" th:field="*{descricao}"></input>
+								<span type="submit" class="input-group-btn">
+									<button class="btn btn-default">
+										<i class="glyphicon glyphicon-search"></i>
+									</button>
+								</span>
+							</div>
+						</div>
+					</div>
+				</form>
+
 				<table class="table table-bordered table-striped">
 					<thead>
 						<tr>

@@ -18,15 +18,13 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.cobranca.model.StatusTitulo;
 import com.example.cobranca.model.Titulo;
-import com.example.cobranca.repository.Titulos;
+import com.example.cobranca.model.TituloFilter;
 import com.example.cobranca.service.CadastroTituloService;
+
 
 @Controller
 @RequestMapping({"/titulo","/titulo/"})
 public class TituloController {
-
-	@Autowired
-	private Titulos titulos;
 	
 	@Autowired
 	private CadastroTituloService service;
@@ -62,11 +60,11 @@ public class TituloController {
 	}
 	
 	@RequestMapping
-	public ModelAndView pesquisar() {
+	public ModelAndView pesquisar(@ModelAttribute("filtro") TituloFilter filtro) {
+		List<Titulo> titulos = service.filtrar(filtro);
+
 		ModelAndView mv = new ModelAndView("PesquisaTitulos");
-		List<Titulo> titulos = this.titulos.findAll();
 		mv.addObject("titulos", titulos);
-		
 		return mv;
 	}
 	
